@@ -1,0 +1,35 @@
+<launch>
+  <!-- Load the robot description parameter -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find dwa_planner)/urdf/mj_robot.xacro" />
+  
+  <!-- Launch RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find dwa_planner)/rviz/tf_test_rviz.rviz" />
+   
+  <!-- LiDAR 데이터 생성 노드 실행 -->
+  <node name="lidar_publisher" pkg="dwa_planner" type="rviz_lidar.py" output="screen" />
+
+  <!-- IMU 데이터 생성 노드 실행 -->
+  <node name="imu_publisher" pkg="dwa_planner" type="rviz_imu.py" output="screen" />
+
+  <!-- TF 브로드캐스터 노드 실행 -->
+  <node name="robot_tf_broadcaster" pkg="dwa_planner" type="tf_robot_test.py" output="screen" />
+
+  <!-- AMCL 실행 -->
+  <node name="amcl" pkg="amcl" type="amcl" output="screen">
+    <param name="base_frame_id" value="base_link"/>
+    <param name="odom_frame_id" value="odom"/>
+    <param name="global_frame_id" value="map"/>
+    <rosparam file="$(find dwa_planner)/config/mj_amcl_params.yaml" command="load" />
+  </node>
+
+  <!-- move_base 실행 -->
+  <node name="move_base" pkg="move_base" type="move_base" output="screen">
+    <rosparam file="$(find dwa_planner)/config/mj_move_base_params.yaml" command="load" />
+  </node>
+
+  <!-- 맵 서버 실행 -->
+  <node name="map_server" pkg="map_server" type="map_server" args="/home/ros/happy_ws/src/dwa_planner/map/my_map.yaml" output="screen" />
+
+  
+
+</launch>

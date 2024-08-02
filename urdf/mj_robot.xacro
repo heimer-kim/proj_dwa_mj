@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mj_robot">
+
+  <!-- Define default materials -->
+  <material name="blue">
+    <color rgba="0 0 1 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+  <material name="green">
+    <color rgba="0 1 0 1"/>
+  </material>
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+
+  <!-- Define a macro for a wheel -->
+  <xacro:macro name="wheel" params="name color xyz rpy">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <cylinder radius="0.1" length="0.05"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.1" length="0.05"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="base_to_${name}" type="continuous">
+      <parent link="base_link"/>
+      <child link="${name}"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <axis xyz="0 1 0"/> <!-- Rotate around Y-axis -->
+    </joint>
+  </xacro:macro>
+
+  <!-- Odom link
+  <link name="odom"/> -->
+  
+  <!-- Base link -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.5 0.5 0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.5 0.5 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+  
+  
+  
+  <!-- Use the wheel macro for left and right wheels -->
+  <xacro:wheel name="left_wheel" color="black" xyz="0 0.25 -0.05" rpy="1.5708 0 0"/>
+  <xacro:wheel name="right_wheel" color="black" xyz="0 -0.25 -0.05" rpy="1.5708 0 0"/>
+
+  <!-- Camera -->
+  <link name="camera">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_to_camera" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera"/>
+    <origin xyz="0.25 0 0.2" rpy="0 0 0"/>
+  </joint>
+
+  <!-- LiDAR sensor -->
+  <link name="lidar_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.2"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.1" length="0.2"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_to_lidar" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+  </joint>
+
+  <!-- IMU sensor -->
+  <link name="imu_link">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_to_imu" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+  </joint>
+
+</robot>

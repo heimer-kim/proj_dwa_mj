@@ -1,0 +1,23 @@
+amcl:
+  min_particles: 500 #파티클 필터의 최소 파티클 수.
+  max_particles: 2000 # 파티클 필터의 최대 파티클 수.
+  kld_err: 0.05 #KLD 샘플링 오류 허용치.
+  update_min_d: 0.2 #최소 거리 이동 후 업데이트.
+  update_min_a: 0.2 #최소 각도 이동 후 업데이트.
+  resample_interval: 1 # 리샘플링 주기.
+  transform_tolerance: 0.5 #변환 허용 오차.
+  recovery_alpha_slow: 0.005 #느린 업데이트를 위한 복구 계수.
+  recovery_alpha_fast: 0.1 #빠른 업데이트를 위한 복구 계수.
+  odom_model_type: "diff" #오도메트리 모델 타입 ("diff" 또는 "omni").
+  odom_alpha1: 0.2 #오도메트리 노이즈 모델 파라미터.
+  odom_alpha2: 0.2
+  odom_alpha3: 0.2
+  odom_alpha4: 0.2
+  laser_lambda_short: 0.1 #레이저 거리 짧은 값 모델의 파라미터.
+  laser_model_type: "likelihood_field" #레이저 모델 타입 ("beam", "likelihood_field").
+  laser_z_hit: 0.9 #히트 확률.
+  laser_z_short: 0.1 #짧은 거리 확률.
+  laser_z_max: 0.05 #최대 거리 확률.
+  laser_z_rand: 0.05 #랜덤 거리 확률.
+  laser_sigma_hit: 0.2 #히트 모델의 표준 편차.
+  laser_likelihood_max_dist: 2.0 #최대 거리 일치 값.

@@ -1,0 +1,23 @@
+<launch>
+  <!-- 리매핑된 Lidar 노드 실행 -->
+  <node pkg="dwa_planner" type="remap_lidar.py" name="remap_lidar" output="screen" />
+
+  <!-- GPS 변환 노드 실행 -->
+  <node pkg="dwa_planner" type="gps_converter.py" name="gps_converter" output="screen" />
+
+  <!-- WGS84 to UTM 변환 노드 실행 -->
+  <node pkg="dwa_planner" type="wgs84_to_utm_topic.py" name="wgs84_to_utm_topic" output="screen" />
+
+  <!-- IMU to Odometry 변환 노드 실행 -->
+  <node pkg="dwa_planner" type="imu_to_odom.py" name="imu_to_odom" output="screen" />
+
+  <!-- 전역 경로 생성 노드 실행 -->
+  <!-- 
+  <node pkg="dwa_planner" type="utm_global_path.py" name="utm_global_path" output="screen">
+    <param name="input_file" value="/home/ros/utm_data/utm1.txt" />
+  </node>
+    -->
+    
+  <!-- cmd_vel 변환 노드 실행 -->
+  <node pkg="dwa_planner" type="cmd_vel_convert_morai.py" name="cmd_vel_convert_morai" output="screen" /> 
+</launch>

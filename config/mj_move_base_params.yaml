@@ -1,0 +1,52 @@
+base_global_planner: "navfn/NavfnROS" # 글로벌 경로 계획 알고리즘 중 Navfn ROS 를 사용한다는 뜻
+base_local_planner: "base_local_planner/TrajectoryPlannerROS" # 로컬 경로 계획 알고리즘을 지정합니다. 여기서는 TrajectoryPlannerROS를 사용합니다.
+planner_frequency: 1.0 # 글로벌 경로 계획의 주기(초당 횟수)를 설정합니다.
+controller_frequency: 10.0 # 로컬 경로 계획 및 제어 주기(초당 횟수)를 설정합니다.
+
+global_costmap:
+  global_frame: "map"
+  robot_base_frame: "base_link"
+  update_frequency: 20.0
+  publish_frequency: 20.0
+  transform_tolerance: 0.5
+  plugins:
+    - name: static_layer
+      type: "costmap_2d::StaticLayer"
+    - name: obstacle_layer
+      type: "costmap_2d::ObstacleLayer"
+    - name: inflation_layer
+      type: "costmap_2d::InflationLayer"
+      inflation_radius: 0.001  # 인플레이션 반경을 늘려봅니다
+      cost_scaling_factor: 0.001  # 비용 스케일링 팩터를 조정합니다
+
+local_costmap:
+  global_frame: "odom"
+  robot_base_frame: "base_link"
+  update_frequency: 5.0
+  publish_frequency: 5.0
+  transform_tolerance: 0.5
+  rolling_window: true
+  width: 16.0 # 맵의 크기를 늘려봅니다
+  height: 16.0 # 맵의 크기를 늘려봅니다
+  resolution: 0.05
+  plugins:
+    - name: obstacle_layer
+      type: "costmap_2d::ObstacleLayer"
+    - name: inflation_layer
+      type: "costmap_2d::InflationLayer"
+      inflation_radius: 0.001  # 인플레이션 반경을 늘려봅니다
+      cost_scaling_factor: 0.001  # 비용 스케일링 팩터를 조정합니다
+
+TrajectoryPlannerROS:
+  max_vel_x: 0.5 # 로봇의 최대 선속도 (m/s).
+  min_vel_x: 0.2 # 로봇의 최소 선속도 (m/s).
+  max_vel_theta: 1.0 # 로봇의 최대 회전 속도 (rad/s).
+  min_vel_theta: -1.0 # 로봇의 최소 회전 속도 (rad/s).
+  acc_lim_x: 1.0 # 로봇의 선속도 가속도 한계 (m/s^2).
+  acc_lim_theta: 0.5 # 로봇의 회전 속도 가속도 한계 (rad/s^2).
+  yaw_goal_tolerance: 0.5 # 목표 지점에서의 허용 회전 오차 (rad).
+  xy_goal_tolerance: 0.5 # 목표 지점에서의 허용 위치 오차 (m).
+  path_distance_bias: 20.0 # 경로 거리의 가중치.
+  goal_distance_bias: 0.8 # 목표 거리의 가중치.
+  max_obstacle_height: 0.6 # 경로 계획에서 고려할 최대 장애물 높이 (m).
+  meter_scoring: true  # 추가

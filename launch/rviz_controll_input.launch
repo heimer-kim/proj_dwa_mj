@@ -1,0 +1,19 @@
+<launch>
+  <!-- Load the robot description parameter -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find dwa_planner)/urdf/mj_robot.xacro" />
+  
+  <!-- Robot State Publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0"/>
+  </node>
+
+  <!-- Launch RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find dwa_planner)/rviz/tf_test_rviz.rviz" />
+  <!-- TF 브로드캐스터 노드 실행 -->
+  <node name="robot_tf_broadcaster" pkg="dwa_planner" type="tf_robot_test.py" output="screen" />
+
+  <!-- 로봇 제어 노드 추가 -->
+  <node name="robot_controller" pkg="dwa_planner" type="rviz_controll.py" output="screen">
+    <remap from="/cmd_vel" to="/cmd_vel"/>
+  </node>
+</launch>
