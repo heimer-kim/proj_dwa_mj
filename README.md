@@ -1,3 +1,22 @@
+#실행 방법
+```
+# 1.모라이 실행
+
+# 2.rosbridge 실행
+roslaunch rosbridge_server rosbridge_websocket.launch
+
+# 3.morai 토픽들 실제 장치로 사용하는 토픽으로 변환 런치파일 실행
+roslaunch dwa_planner morai_convert.launch
+
+# 4. dwa 런치파일싱행
+roslaunch dwa_planner local_planner.launch
+
+# 5. 전역경로 지정 파이썬 파일 실행
+rosrun dwa_planner utm_to_move_base_simpl.py
+
+# 6.rviz 켜서 원하는 것 topic 켜서 확인
+```
+
 # dwa_planner
 
 [![CI](https://github.com/amslabtech/dwa_planner/workflows/CI/badge.svg)](https://github.com/amslabtech/dwa_planner/actions)
