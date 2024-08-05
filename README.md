@@ -1,5 +1,8 @@
 #실행 방법
 ```
+우선 git clone 하고 다운 받은 패키지 이름을 dwa_planner로 변경
+
+
 # 1.모라이 실행
 
 # 2.rosbridge 실행
